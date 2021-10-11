@@ -23,7 +23,7 @@ class List:
         :param profiles: comma separated list of aws profiles to search
         :param regions: comma separated list of regions to search, default is to check \
             all commercial regions
-        :param stack_type: type of stacks to check, options are 'test', 'package', or 'ALL'. \
+        :param stack_type: type of stacks to check, options are 'test', 'project', or 'ALL'. \
             default is 'ALL'
         """
         LOG.warning("list is in alpha feature, use with caution")
@@ -67,7 +67,7 @@ class List:
                         "active_stacks": 1,
                         "region": stack["region"],
                     }
-                elif name and stack_type == "package":
+                elif name and stack_type == "project":
                     jobs[stack_key] = {
                         "name": name,
                         "id": stack["taskcat-id"].hex,

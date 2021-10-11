@@ -9,17 +9,17 @@ LOG = logging.getLogger(__name__)
 
 
 class Delete:
-    """[ALPHA] Deletes an installed package in an AWS account/region"""
+    """[ALPHA] Deletes an installed project in an AWS account/region"""
 
     def __init__(
         self,
-        package: str,
+        project: str,
         aws_profile: str = "default",
         region="default",
-        _stack_type="package",
+        _stack_type="project",
     ):
         """
-        :param package: installed package to delete, can be an install name or uuid
+        :param project: installed project to delete, can be an install name or uuid
         :param aws_profile: aws profile to use for deletion
         :param region: region to delete from, default will use aws cli configured
         default
@@ -40,11 +40,11 @@ class Delete:
                 "test_name": stack["taskcat-test-name"],
                 "taskcat_id": stack["taskcat-id"].hex,
                 "region": stack["region"],
-                "type": "package" if stack.get("taskcat-installer") else "test",
+                "type": "project" if stack.get("taskcat-installer") else "test",
                 "stack_id": stack["stack-id"],
             }
             if _stack_type == job["type"]:
-                if package in [job["name"], job["taskcat_id"], "ALL"]:
+                if project in [job["name"], job["taskcat_id"], "ALL"]:
                     jobs.append(job)
         # TODO: concurrency and wait for complete
         for job in jobs:

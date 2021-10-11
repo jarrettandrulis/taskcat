@@ -25,7 +25,7 @@ class Deploy:
     # pylint: disable=too-many-branches,too-many-locals
     def __init__(  # noqa: C901
         self,
-        package: str,
+        project: str,
         aws_profile: str = "default",
         region="default",
         parameters="",
@@ -33,7 +33,7 @@ class Deploy:
         wait=False,
     ):
         """
-        :param package: name of package to install can be a path to a local package,
+        :param project: name of project to install can be a path to a local project,
         a github org/repo, or an AWS Quick Start name
         :param aws_profile: aws profile to use for installation
         :param region: regions to install into, default will use aws cli configured
@@ -51,22 +51,22 @@ class Deploy:
             name = generate_name()
         if region == "default":
             region = boto3_cache.get_default_region(profile_name=aws_profile)
-        path = Path(package).resolve()
-        if Path(package).resolve().is_dir():
-            package_type = "local"
-        elif "/" in package:
-            package_type = "github"
+        path = Path(project).resolve()
+        if Path(project).resolve().is_dir():
+            project_type = "local"
+        elif "/" in project:
+            project_type = "github"
         else:  # assuming it's an AWS Quick Start
-            package_type = "github"
-            package = f"aws-quickstart/quickstart-{package}"
-        if package_type == "github":
-            if package.startswith("https://") or package.startswith("git@"):
-                url = package
+            project_type = "github"
+            project = f"aws-quickstart/quickstart-{project}"
+        if project_type == "github":
+            if project.startswith("https://") or project.startswith("git@"):
+                url = project
                 org, repo = (
-                    package.replace(".git", "").replace(":", "/").split("/")[-2:]
+                    project.replace(".git", "").replace(":", "/").split("/")[-2:]
                 )
             else:
-                org, repo = package.split("/")
+                org, repo = project.split("/")
                 url = f"https://github.com/{org}/{repo}.git"
             path = Deploy.PKG_CACHE_PATH / org / repo
             LOG.info(f"fetching git repo {url}")
