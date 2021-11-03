@@ -37,7 +37,6 @@ class Test:
         keep_failed: bool = False,
         minimal_output: bool = False,
         dont_wait_for_delete: bool = False,
-        retry_path: str = "./.taskcat.yml.temp",
     ):
         """[ALPHA] re-launches a child stack using the same parameters as previous
         launch
@@ -52,7 +51,6 @@ class Test:
         :param keep_failed: do not delete failed stacks
         :param minimal_output: Reduces output during test runs
         :param dont_wait_for_delete: Exits immediately after calling stack_delete
-        :param retry_path: filepath for temporary file
         """
         LOG.warning("test retry is in alpha feature, use with caution")
         project_root_path: Path = Path(project_root).expanduser().resolve()
